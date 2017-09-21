@@ -4,31 +4,34 @@ const logger = (msg) => console.log(msg);
 
 const socketAddress = 'ws:/192.168.88.29:4000/socket';
 
-// connect to default channels
-const connectDefaultChannels = (socket) => {
-    channel(socket, 'system:chat', [{ event: 'new:msg', handler: logger }]);
-    channel(socket, 'system:',
-        [{ event: 'world', handler: logger },
-        { event: 'token', handler: logger }
-        ]);
-};
+// function that takes a string.
+export interface MsgHandler {
+    (msg: string): void;
+}
+
+// object with an event and a MsgHandler function
+export interface EventHandler {
+    event: string;
+    handler: MsgHandler;
+}
+
 
 // connect the websocket
-export const init = () => {
+export const init = (): Socket => {
     let socket = new Socket(socketAddress, { params: {} });
     socket.connect();
-    connectDefaultChannels(socket);
+    return socket;
 };
 
 // connect to channel `name` on the socket
-const channel = (socket, name: string, eventHandlers) => {
+export const createChannel = (socket: Socket, name: string, eventHandlers: [EventHandler]) => {
     let channel = socket.channel(name, {});
     eventHandlers.map(({ event, handler }) => {
         channel.on(event, handler);
     });
     channel.join()
         .receive('ok', ({ messages }) => {
-            const info = `socket connected: ${channel.name} `;
+            const info = `socket connected: ${channel} `;
             if (messages) {
                 console.log(info, messages);
             } else {

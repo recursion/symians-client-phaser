@@ -7,6 +7,8 @@ import * as WebFontLoader from 'webfontloader';
 import Boot from './states/boot';
 import Preloader from './states/preloader';
 import Title from './states/title';
+import WorldView from './states/worldView';
+
 import * as Utils from './utils/utils';
 import * as Assets from './assets';
 import * as Socket from './socket';
@@ -18,6 +20,7 @@ class App extends Phaser.Game {
         this.state.add('boot', Boot);
         this.state.add('preloader', Preloader);
         this.state.add('title', Title);
+        this.state.add('worldView', WorldView);
 
         this.state.start('boot');
     }
@@ -48,8 +51,6 @@ function startApp(): void {
 window.onload = () => {
     let webFontLoaderOptions: any = null;
     let webFontsToLoad: string[] = GOOGLE_WEB_FONTS;
-
-    let socket = Socket.init();
 
     if (webFontsToLoad.length > 0) {
         webFontLoaderOptions = (webFontLoaderOptions || {});
