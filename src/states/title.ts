@@ -12,7 +12,9 @@ export default class Title extends Phaser.State {
     public create(): void {
         this.title = createTitleText(this.game);
         this.initSocket();
-
+        this.createStartButton();
+    }
+    private createStartButton() {
         this.startButtonText = this.game.add.text(this.game.world.centerX, 300, 'Start');
         this.startButtonText.anchor.set(0.5);
         this.startButtonText.fontSize = 25;
@@ -33,16 +35,13 @@ export default class Title extends Phaser.State {
         this.state.start('worldView', true, false, { worldData: this.worldData, socket: this.socket });
     }
     private loadWorld(worldData) {
-        console.log('Loading bitches', worldData);
         this.worldData = worldData;
         this.game.world.resize(worldData.dimensions.width * 64, worldData.height * 64);
         this.startButtonText.visible = true;
     }
 
     private initSocket(): void {
-
         this.socket = Socket.init();
-
         Socket.createChannel(this.socket, 'system:chat', [{ event: 'new:msg', handler: logger }]);
         Socket.createChannel(this.socket, 'system:',
             [{ event: 'world', handler: this.loadWorld.bind(this) },
@@ -50,6 +49,7 @@ export default class Title extends Phaser.State {
             ]);
     }
 }
+
 const createTitleText = (game) => {
     const infoText = game.add.text(game.world.centerX, 150, ' Symians! ');
     infoText.anchor.set(0.5);
@@ -64,15 +64,17 @@ const createTitleText = (game) => {
 
 
 function up(text) {
-    console.log('button up', arguments);
+    // console.log('button up', arguments);
 }
 
 function over(text) {
+    text.fill = '#AE3388';
     text.setShadow(1, 1, 'rgba(255, 0, 0, 0.5)');
     text.setShadow(-1, -1, 'rgba(255, 0, 0, 0.5)');
 }
 
 function out(text) {
+    text.fill = '#FFFFFF';
     text.setShadow(1, 1, 'rgba(0, 0, 0, 0.5)');
     text.setShadow(-1, -1, 'rgba(0, 0, 0, 0.5)');
 }

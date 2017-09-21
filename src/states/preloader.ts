@@ -1,26 +1,35 @@
 import * as Assets from '../assets';
 import * as AssetUtils from '../utils/assetUtils';
+
+
 export default class Preloader extends Phaser.State {
     private preloadBarSprite: Phaser.Sprite = null;
     private preloadFrameSprite: Phaser.Sprite = null;
     private infoText: Phaser.Text = null;
-    private worldData = null;
-    private socket = null;
 
     public preload(): void {
-        this.preloadBarSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesArray.getName(), Assets.Atlases.AtlasesPreloadSpritesArray.Frames.PreloadBar);
-        // this.preloadBarSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesHash.getName(), Assets.Atlases.AtlasesPreloadSpritesHash.Frames.PreloadBar);
-        // this.preloadBarSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesXml.getName(), Assets.Atlases.AtlasesPreloadSpritesXml.Frames.PreloadBar);
+        this.preloadBarSprite = this.game.add.sprite(this.game.world.centerX,
+            this.game.world.centerY,
+            Assets.Atlases.AtlasesPreloadSpritesArray.getName(),
+            Assets.Atlases.AtlasesPreloadSpritesArray.Frames.PreloadBar);
+
         this.preloadBarSprite.anchor.setTo(0, 0.5);
         this.preloadBarSprite.x -= this.preloadBarSprite.width * 0.5;
 
-        this.preloadFrameSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesArray.getName(), Assets.Atlases.AtlasesPreloadSpritesArray.Frames.PreloadFrame);
-        // this.preloadFrameSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesHash.getName(), Assets.Atlases.AtlasesPreloadSpritesHash.Frames.PreloadFrame);
-        // this.preloadFrameSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Atlases.AtlasesPreloadSpritesXml.getName(), Assets.Atlases.AtlasesPreloadSpritesXml.Frames.PreloadFrame);
+        this.preloadFrameSprite = this.game.add.sprite(this.game.world.centerX,
+            this.game.world.centerY,
+            Assets.Atlases.AtlasesPreloadSpritesArray.getName(),
+            Assets.Atlases.AtlasesPreloadSpritesArray.Frames.PreloadFrame);
+
         this.preloadFrameSprite.anchor.setTo(0.5);
+
+        this.game.load.atlasXML(Assets.Atlases.AtlasesSpritesheetTiles.getName(),
+            Assets.Atlases.AtlasesSpritesheetTiles.getPNG(),
+            Assets.Atlases.AtlasesSpritesheetTiles.getXML());
 
         this.infoText = createText(this.game);
         this.game.load.setPreloadSprite(this.preloadBarSprite);
+
         AssetUtils.Loader.loadAllAssets(this.game, this.waitForSoundDecoding, this);
     }
     private waitForSoundDecoding(): void {
@@ -28,11 +37,16 @@ export default class Preloader extends Phaser.State {
     }
 
     private startGame(): void {
-        this.game.camera.onFadeComplete.addOnce(this.loadTitle, this);
+        this.game.camera.onFadeComplete.addOnce(this.trans, this);
         this.game.camera.fade(0x000000, 1000);
     }
 
+    private trans() {
+        console.log('Trans......')
+        this.game.time.events.add(1000, this.loadTitle, this);
+    }
     private loadTitle() {
+        console.log('Fat!')
         this.game.state.start('title');
     }
 }

@@ -6,7 +6,7 @@ export default class Boot extends Phaser.State {
         // Load any assets you need for your preloader state here.
         this.game.load.atlasJSONArray(Assets.Atlases.AtlasesPreloadSpritesArray.getName(), Assets.Atlases.AtlasesPreloadSpritesArray.getPNG(), Assets.Atlases.AtlasesPreloadSpritesArray.getJSONArray());
         // this.game.load.atlasJSONHash(Assets.Atlases.AtlasesPreloadSpritesHash.getName(), Assets.Atlases.AtlasesPreloadSpritesHash.getPNG(), Assets.Atlases.AtlasesPreloadSpritesHash.getJSONHash());
-        // this.game.load.atlasXML(Assets.Atlases.AtlasesPreloadSpritesXml.getName(), Assets.Atlases.AtlasesPreloadSpritesXml.getPNG(), Assets.Atlases.AtlasesPreloadSpritesXml.getXML());
+        // this.game.load.atlasXML(Assets.Atlases.AtlasesSpritesheetTiles.getName(), Assets.Atlases.AtlasesSpritesheetTiles.getPNG(), Assets.Atlases.AtlasesSpritesheetTiles.getXML());
     }
 
     public create(): void {
@@ -45,6 +45,7 @@ export default class Boot extends Phaser.State {
         // game.height is the actual height of the game
         // GOOGLE_WEB_FONTS are the fonts to be loaded from Google Web Fonts
         // SOUND_EXTENSIONS_PREFERENCE is the most preferred to least preferred order to look for audio sources
+        /*
         console.log(
             `DEBUG....................... ${DEBUG}
            \nSCALE_MODE.................. ${SCALE_MODE}
@@ -57,6 +58,7 @@ export default class Boot extends Phaser.State {
            \nGOOGLE_WEB_FONTS............ ${GOOGLE_WEB_FONTS}
            \nSOUND_EXTENSIONS_PREFERENCE. ${SOUND_EXTENSIONS_PREFERENCE}`
         );
+        */
 
         this.game.state.start('preloader');
     }

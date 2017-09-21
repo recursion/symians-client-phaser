@@ -8,7 +8,7 @@ import Boot from './states/boot';
 import Preloader from './states/preloader';
 import Title from './states/title';
 import WorldView from './states/worldView';
-
+import Location from './world/location';
 import * as Utils from './utils/utils';
 import * as Assets from './assets';
 import * as Socket from './socket';
