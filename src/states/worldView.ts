@@ -13,9 +13,8 @@ export default class WorldView extends Phaser.State {
     private selector = Selector.init();
     private tiles = {};
 
-    public init({ worldData, socket }) {
+    public init({ worldData }) {
         this.worldData = worldData;
-        this.socket = socket;
     }
 
     public preload(): void {
@@ -24,15 +23,14 @@ export default class WorldView extends Phaser.State {
 
         // setup camera movement / zLevel nagivation hotkeys
         this.hotkeys = Input.setup(this.game, this.zLevels);
-
-        this.tiles = World.createLocations(this.game,
-            this.worldData.locations,
-            this.zLevels,
-            this.selector);
     }
 
 
     public create(): void {
+        this.tiles = World.createLocations(this.game,
+            this.worldData.locations,
+            this.zLevels,
+            this.selector);
     }
 
     public update() {

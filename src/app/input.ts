@@ -29,7 +29,8 @@ export const update = (hotkeys, game, selector) => {
     else if (hotkeys.right.isDown) {
         game.camera.x += CAMERA_SPEED;
     }
-}
+};
+
 export const setup = (game, zLayers) => {
     const hotkeys = { up: null, down: null, left: null, right: null, zUp: null, zDown: null };
 
@@ -49,4 +50,4 @@ export const setup = (game, zLayers) => {
     hotkeys.zDown.onDown.add(() => zLevels.moveDown(zLayers));
 
     return hotkeys;
-}
+};

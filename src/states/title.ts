@@ -1,81 +1,109 @@
 import * as Assets from '../assets';
 import * as Socket from '../socket';
 
-const logger = (msg) => console.log(msg);
+// setup some common colors;
+const colors = {
+    base: '#FFFFFF',
+    green: '#00FF00',
+    orange: '#FAFA00'
+};
 
 export default class Title extends Phaser.State {
     private title: Phaser.Text = null;
+    private subTitle: Phaser.Text = null;
     private startButtonText: Phaser.Text = null;
+    private colors = colors;
     private worldData = null;
-    private socket = null;
+
+    public init({ worldData, socket }) {
+        this.worldData = worldData;
+    }
 
     public create(): void {
-        this.title = createTitleText(this.game);
-        this.initSocket();
+        this.createTitleText();
         this.createStartButton();
     }
+
+    private createTitleText() {
+        this.initTitle();
+        this.initSubTitle();
+
+        this.setTextProps(this.title, 50, this.colors.green, true, true);
+        this.setTextProps(this.subTitle, 10, this.colors.base, false, false);
+    }
+
+    private initTitle() {
+        this.title = this.game.add.text(
+            this.game.world.centerX,
+            250,
+            'Symians'
+        );
+    }
+    private initSubTitle() {
+        this.subTitle = this.game.add.text(
+            this.game.world.centerX,
+            300,
+            'A big game, about little monkeys.'
+        );
+    }
+
+    private setTextProps(el, size, color, isBold, hasShadow) {
+        el.anchor.set(0.5);
+        el.align = 'center';
+        el.font = 'Arial Black';
+        el.fontSize = size;
+        el.fill = color;
+        if (isBold) {
+            el.fontWeight = 'bold';
+        }
+        if (hasShadow) {
+            el.setShadow(1, 1, 'rgba(155, 155, 155, 1)');
+        }
+    }
+
     private createStartButton() {
-        this.startButtonText = this.game.add.text(this.game.world.centerX, 300, 'Start');
+        this.startButtonText = this.game.add.text(this.game.world.centerX, 350, 'Start');
         this.startButtonText.anchor.set(0.5);
-        this.startButtonText.fontSize = 25;
+        this.startButtonText.fontSize = 14;
         this.startButtonText.align = 'center';
-        this.startButtonText.fill = '#FFFFFF';
-        this.startButtonText.setShadow(1, 1, 'rgba(0, 0, 0, 0.5)');
-        this.startButtonText.setShadow(-1, -1, 'rgba(0, 0, 0, 0.5)');
+        this.startButtonText.fill = this.colors.orange;
+        this.startButtonText.stroke = '#000';
+        this.startButtonText.setShadow(1, 1, 'rgba(255, 255, 255, 0.5)');
+        this.startButtonText.setShadow(-1, -1, 'rgba(255, 255, 255, 0.5)');
 
         this.startButtonText.inputEnabled = true;
-        this.startButtonText.events.onInputUp.add(() => up(this.startButtonText), this);
-        this.startButtonText.events.onInputOut.add(() => out(this.startButtonText), this);
-        this.startButtonText.events.onInputOver.add(() => over(this.startButtonText), this);
-        this.startButtonText.events.onInputDown.add(() => this.actionOnClick(), this);
-        this.startButtonText.visible = false;
+        this.startButtonText.events.onInputUp.add(() => {
+            // nothing for now....
+        });
+
+        this.startButtonText.events.onInputOut.add(() => {
+            this.startButtonText.fill = this.colors.green;
+            this.startButtonText.setShadow(1, 1, 'rgba(255, 255, 255, 0.5)');
+            this.startButtonText.setShadow(-1, -1, 'rgba(255, 255, 255, 0.5)');
+        });
+
+        this.startButtonText.events.onInputOver.add(() => {
+            this.startButtonText.fill = '#00FF00';
+            this.startButtonText.setShadow(1, 1, 'rgba(255, 255, 255, 0.5)');
+            this.startButtonText.setShadow(-1, -1, 'rgba(0, 205, 205, 0.5)');
+        });
+
+        this.startButtonText.events.onInputDown.add(() => {
+            this.game.camera.onFadeComplete.addOnce(this.startWorld, this);
+            this.game.camera.fade(0x000000, 100);
+        });
+
     }
 
-    private actionOnClick() {
-        this.state.start('worldView', true, false, { worldData: this.worldData, socket: this.socket });
-    }
-    private loadWorld(worldData) {
-        this.worldData = worldData;
-        this.game.world.resize(worldData.dimensions.width * 64, worldData.height * 64);
-        this.startButtonText.visible = true;
-    }
-
-    private initSocket(): void {
-        this.socket = Socket.init();
-        Socket.createChannel(this.socket, 'system:chat', [{ event: 'new:msg', handler: logger }]);
-        Socket.createChannel(this.socket, 'system:',
-            [{ event: 'world', handler: this.loadWorld.bind(this) },
-            { event: 'token', handler: logger }
-            ]);
+    private startWorld() {
+        this.state.start('worldView',
+            true,
+            false,
+            {
+                worldData: this.worldData
+            }
+        );
     }
 }
 
-const createTitleText = (game) => {
-    const infoText = game.add.text(game.world.centerX, 150, ' Symians! ');
-    infoText.anchor.set(0.5);
-    infoText.align = 'center';
-    infoText.font = 'Arial Black';
-    infoText.fontSize = 50;
-    infoText.fontWeight = 'bold';
-    infoText.fill = '#FFFFFF';
-    infoText.setShadow(1, 1, 'rgba(155, 155, 155, 1)');
-    return infoText;
-};
-
-
-function up(text) {
-    // console.log('button up', arguments);
-}
-
-function over(text) {
-    text.fill = '#AE3388';
-    text.setShadow(1, 1, 'rgba(255, 0, 0, 0.5)');
-    text.setShadow(-1, -1, 'rgba(255, 0, 0, 0.5)');
-}
-
-function out(text) {
-    text.fill = '#FFFFFF';
-    text.setShadow(1, 1, 'rgba(0, 0, 0, 0.5)');
-    text.setShadow(-1, -1, 'rgba(0, 0, 0, 0.5)');
-}
 

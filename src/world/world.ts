@@ -7,7 +7,7 @@ export const Coordinates = ([x, y, z]) => {
 
 export const hashCoords = (coords) => {
     return [coords.x, coords.y, coords.z].join('|');
-}
+};
 
 export const decodeCoords = (coords) => {
     return Coordinates(coords.split('|'));
@@ -28,14 +28,14 @@ export const createLocations = (game, locations, layers, selector) => {
     }
     zLevels.showCurrent(layers);
     return tiles;
-}
+};
 
 const mouseOutLocation = (coords, tiles) => {
     let tile = tiles[hashCoords(coords)];
     tile.tint = 0xFFFFFF;
-}
+};
+
 const mouseOverLocation = (game, coords, tiles, selector) => {
-    console.log(coords);
     let tile = tiles[hashCoords(coords)];
     tile.tint = 0xEEEEEE;
     if (game.input.activePointer.leftButton.isDown) {
@@ -44,4 +44,4 @@ const mouseOverLocation = (game, coords, tiles, selector) => {
     } else {
         selector.selecting = false;
     }
-}
+};
