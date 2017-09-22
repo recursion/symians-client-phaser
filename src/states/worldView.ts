@@ -34,11 +34,10 @@ export default class WorldView extends Phaser.State {
             this.zLevels,
             this.selector
         );
-        this.selector.setTiles(this.tiles);
     }
 
     public update() {
-        this.selector.update();
+        this.selector.update(this.tiles);
         Input.update(this.hotkeys, this.game, this.selector);
     }
 
