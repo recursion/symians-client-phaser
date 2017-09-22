@@ -1,5 +1,7 @@
 import * as Assets from '../assets';
 
+const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
+
 // real pixel size of the images
 const IMG_SIZE = 128;
 
@@ -23,8 +25,8 @@ export default class Location extends Phaser.TileSprite {
             (y * TILE_SIZE),
             IMG_SIZE,
             IMG_SIZE,
-            Assets.Atlases.AtlasesSpritesheetTiles.getName(),
-            Assets.Atlases.AtlasesSpritesheetTiles.Frames.GrassTop
+            tileAssets.getName(),
+            tileAssets.Frames.GrassTop
         );
 
         this.anchor.set(0.5, 0.5);
