@@ -1,41 +1,11 @@
-# Phaser NPM Webpack TypeScript Starter Project (catchy name, isn't it?)
-[![Dependencies](https://david-dm.org/rroylance/phaser-npm-webpack-typescript-starter-project.png?theme=shields.io)](https://david-dm.org/rroylance/phaser-npm-webpack-typescript-starter-project)
-[![devDependency Status](https://david-dm.org/rroylance/phaser-npm-webpack-typescript-starter-project/dev-status.svg)](https://david-dm.org/rroylance/phaser-npm-webpack-typescript-starter-project#info=devDependencies)
+# Symians Phaser Client
 
+Built using:
 ![PhaserNPMWebpackTypeScriptStarterProject](https://raw.githubusercontent.com/rroylance/phaser-npm-webpack-typescript-starter-project/master/README_HEADER.png)
-
-### [Visit the itch.io page for a live demo!][itchio]
-
-##### Hit the ground running and make some great games!
-
-###### If you use this template/starter project in any capacity; I'd love to hear about your experience with it. Whether you continued with it or decided not to (I really want to hear why you made your decision).
 
 # Features:
 
-- Phaser-CE 2.8.3 (npm module, no having to download the library separately...)
-- TypeScript + TSLint
-- 3 States (Boot, Preloader, Title) showing transition between states and where some things should be done and how a TypeScript state looks
-- Google Web Font loader
-- Webpack
-- Separate Development and Distribution builds
-- Live server (builds and reloads the browser on changes)
-- No hassle asset management requiring no code, on your part, to load and parse assets
-  - Assets are required and hashed via webpack, you can now guarantee that when you push an update, everyone will get the new files and not cached ones
-  - Assets class created automatically allowing you to access all the assets and their frames and sprites (in the case of Atlases and Audiosprites) in a compiler validating way!
-- Setting up the game size and scaling through a script that does it all for you
-  - Automatic template background
-  - Sets up the size the game so that it is scaled only when absolutely necessary
-  - Refer to src/utils/utils.ts for an explanation on the background_template and the sizing/scaling style
-
 ### TODO:
-
-- Clean up generateAssetsClass.js
-- Get Custom/Local Web Fonts hashed by Webpack (to avoid cache issues)
-  - If anyone has experience webpacking font-face in css style web fonts and loading said fonts via webfontloader, let me know as I was having some trouble getting the font-face src to use the hashed assets.
-- Multiple resolution asset loader (@2x, @3x, etc...)
-- Yeoman Generator
-- Optional Analytics integration
-- Optional Cordova integration for iOS and Android builds
 
 ### Folder Structure:
 - **assets/** – This is where your assets that are processed when building goes
@@ -45,6 +15,7 @@
 - **scripts/** – This is where node scripts go
 - **src/** – This is where all the games code goes
 - **templates/** – This is where the html template that gets built by Webpack goes
+- **test/ - tests...
 - **.gitignore** – List of files and folders that are ignored by git
 - **.npmrc** – List of some project wide npm settings
 - **electron-main.js** – Entry point and application life controller for electron builds
@@ -56,40 +27,9 @@
 - **webpack.dev.config.js** – Webpack config for the DEV build
 - **webpack.dist.config.js** – Webpack config for the DIST build
 
-# Setup:
-To use this you’ll need to install a few things before you have a working copy of the project. But once you have node.js installed it only takes a few seconds and a couple commands to get going.
+# Development:
 
-## 0. Install Git:
-
-[GIT Installation Instructions and Links][git-scm]
-
-## 1. Download or Clone this repo:
-
-##### 1.1 Download:
-
-Download the latest zip/tar.gz from [GitHub Releases][releases], extract it to where you want your project to be.
-
-##### 1.2 Clone:
-
-Navigate into your workspace directory.
-
-Run:
-
-```git clone https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project.git```
-
-## 2. Install node.js and npm (npm is included and installed with node.js):
-
-[NodeJS Installation Instructions and Links][nodejs]
-
-## 3. Install dependencies:
-
-Navigate to the cloned repo’s directory.
-
-Run:
-
-```npm install```
-
-## 4. Run the dev server:
+## dev server:
 
 Run to use the dev build while developing:
 
@@ -123,6 +63,37 @@ This will build the game with a few caveats;
 - The compile time flag, DEBUG, set to false; allowing you to include or not include certain code depending on if it's DEBUG build or not.
 - The resulting game.min.js will be minified
 
+## Build for testing:
+
+Run:
+
+```npm run build:tests```
+
+This includes all (typescript) dependancies and builds the tests into es5.
+
+## Continual build for testing:
+
+Run:
+
+```npm run build:tests:watch```
+
+This watches all files and rebuilds tests (and dependancies) on changes.
+
+## Run Tests:
+
+Run:
+
+```npm run test```
+
+This runs mocha against the generated tests
+
+## Continually Run Tests:
+
+Run:
+
+```npm run test:watch```
+
+This runs mocha against the generated tests
 ## Generate Assets Class:
 
 This project will manage your assets for you! All you need to do is drop your assets in assets/ (subdirectories do not matter) and run (you need to run this manually if you change assets while the server is running, otherwise it's run automatically when running a build);

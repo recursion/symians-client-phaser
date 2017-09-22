@@ -6,8 +6,12 @@
   "scripts": {
     "webpack:dev": "webpack --config webpack.dev.config.js --progress --colors",
     "webpack:dist": "webpack --config webpack.dist.config.js --progress --colors",
+    "webpack:test": "webpack --config webpack.test.config.js --progress --colors",
+    "webpack:test:watch": "webpack --config webpack.test.config.js --progress --colors --watch",
     "build:dev": "echo-cli 'Building DEV ...' && npm run webpack:dev && echo-cli 'Build Complete ✔'",
     "build:dist": "echo-cli 'Building DIST ...' && npm run webpack:dist && echo-cli 'Build Complete ✔'",
+    "build:tests": "echo-cli 'Building TESTS...' && npm run webpack:test && echo-cli 'Build Complete ✔'",
+    "build:tests:watch": "echo-cli 'Continually Building TESTS...' && npm run webpack:test:watch && echo-cli 'Watch Complete ✔'",
     "server:dev": "webpack-dev-server --config webpack.dev.config.js --hot",
     "server:dist": "webpack-dev-server --config webpack.dist.config.js --open",
     "setupGameSize": "node ./scripts/setupGameSize.js",
@@ -18,7 +22,9 @@
     "electron:dist": "npm run build:dist && electron .",
     "electron:pack:dev": "npm run build:dev && node ./scripts/packageElectronApp.js",
     "electron:pack:dist": "npm run build:dist && node ./scripts/packageElectronApp.js",
-    "checkDepsVersions": "npm-check --skip-unused -u"
+    "checkDepsVersions": "npm-check --skip-unused -u",
+    "test": "mocha dist/test/app.js -R nyan",
+    "test:watch": "mocha dist/test/app.js -R nyan --watch dist/test/app.js"
   },
   "repository": {
     "type": "git",
@@ -30,8 +36,11 @@
   },
   "homepage": "https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
     "@types/node": "8.0.17",
     "@types/webfontloader": "^1.6.28",
+    "chai": "^4.1.2",
     "clean-webpack-plugin": "0.1.16",
     "commander": "2.11.0",
     "copy-webpack-plugin": "4.0.1",
@@ -41,6 +50,7 @@
     "expose-loader": "0.7.3",
     "file-loader": "0.11.2",
     "html-webpack-plugin": "2.29.0",
+    "mocha": "^3.5.3",
     "npm-check": "5.4.5",
     "phaser-ce": "2.8.3",
     "pngjs-image": "0.11.7",
@@ -53,11 +63,12 @@
     "webfontloader": "1.6.28",
     "webpack": "3.4.1",
     "webpack-dev-server": "2.6.1",
+    "webpack-node-externals": "^1.6.0",
     "webpack-shell-plugin": "0.5.0",
-    "xml2js": "0.4.17"
-  },
-  "dependencies": {
+    "xml2js": "0.4.17",
     "phoenix": "^1.3.0",
     "ramda": "^0.24.1"
+  },
+  "dependencies": {
   }
 }
