@@ -2,11 +2,14 @@ import * as Assets from '../assets';
 
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 
+// what scale we want to display the images at
+const TILE_SCALE = 0.25;
+
 // real pixel size of the images
 const IMG_SIZE = 128;
 
-// going to display the tile images at 1/4 size for now
-export const TILE_SIZE = IMG_SIZE / 8;
+// display the tile images at our scale
+export const TILE_SIZE = IMG_SIZE * TILE_SCALE;
 
 // a sprite that represents a map/world location.
 // a.k.a. a tile.
@@ -33,7 +36,7 @@ export default class Location extends Phaser.TileSprite {
 
         // setting the image to 1/4 actual size
         // this is what tilesize comes from 'TILE_SIZE'
-        this.scale.set(0.125, 0.125);
+        this.scale.set(TILE_SCALE, TILE_SCALE);
 
         this.z = z;
 
