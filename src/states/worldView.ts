@@ -3,14 +3,14 @@ import Location from '../world/location';
 import * as Input from '../app/input';
 import * as zLevels from '../world/zLevels';
 import * as World from '../world/world';
-import * as Selector from '../app/selector';
+import Selector from '../app/selector';
 
 export default class WorldView extends Phaser.State {
     private socket = null;
     private worldData = null;
     private hotkeys = null;
     private zLevels = null;
-    private selector = Selector.init();
+    private selector = null;
     private tiles = {};
 
     public init({ worldData }) {
@@ -27,20 +27,18 @@ export default class WorldView extends Phaser.State {
 
 
     public create(): void {
-        this.tiles = World.createLocations(this.game,
+        this.selector = new Selector();
+        this.tiles = World.createLocations(
+            this.game,
             this.worldData.locations,
             this.zLevels,
-            this.selector);
+            this.selector
+        );
+        this.selector.setTiles(this.tiles);
     }
 
     public update() {
-        const currentCoord = this.selector.buffer[0];
-        this.selector.selected
-            .concat(this.selector.buffer)
-            .map((coords) => {
-                let tile = this.tiles[World.hashCoords(coords)];
-                tile.tint = 0xAEAEAE;
-            });
+        this.selector.update();
         Input.update(this.hotkeys, this.game, this.selector);
     }
 

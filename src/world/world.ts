@@ -18,30 +18,19 @@ export const createLocations = (game, locations, layers, selector) => {
     for (let coords in locations) {
         if (locations.hasOwnProperty(coords)) {
             let coordinates = decodeCoords(coords);
+
             const tile = new Location(game,
                 coordinates,
-                () => mouseOverLocation(game, coordinates, tiles, selector),
-                () => mouseOutLocation(coordinates, tiles));
+                selector.onOver,
+                selector.onOut,
+                selector.onDown,
+                selector.onUp
+            );
+
             layers.all[coordinates.z].add(tile);
             tiles[coords] = tile;
         }
     }
     zLevels.showCurrent(layers);
     return tiles;
-};
-
-const mouseOutLocation = (coords, tiles) => {
-    let tile = tiles[hashCoords(coords)];
-    tile.tint = 0xFFFFFF;
-};
-
-const mouseOverLocation = (game, coords, tiles, selector) => {
-    let tile = tiles[hashCoords(coords)];
-    tile.tint = 0xEEEEEE;
-    if (game.input.activePointer.leftButton.isDown) {
-        selector.selecting = true;
-        selector.buffer.unshift(coords);
-    } else {
-        selector.selecting = false;
-    }
 };

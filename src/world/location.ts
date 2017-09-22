@@ -4,12 +4,19 @@ import * as Assets from '../assets';
 const IMG_SIZE = 128;
 
 // going to display the tile images at 1/4 size for now
-const TILE_SIZE = IMG_SIZE / 8;
+export const TILE_SIZE = IMG_SIZE / 8;
 
 // a sprite that represents a map/world location.
 // a.k.a. a tile.
 export default class Location extends Phaser.TileSprite {
-    constructor(game, { x, y, z }, mouseOverHandler, mouseOutHandler, mouseDownHandler = mouseOverHandler) {
+    constructor(
+        game,
+        { x, y, z },
+        mouseOverHandler,
+        mouseOutHandler,
+        mouseDownHandler,
+        mouseUpHandler
+    ) {
         super(
             game,
             (x * TILE_SIZE),
@@ -40,6 +47,12 @@ export default class Location extends Phaser.TileSprite {
             .onInputDown
             .add(() => {
                 mouseDownHandler({ x, y, z });
+            });
+
+        this.events
+            .onInputUp
+            .add(() => {
+                mouseUpHandler({ x, y, z });
             });
 
         this.events
