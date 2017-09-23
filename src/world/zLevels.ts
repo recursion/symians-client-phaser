@@ -36,7 +36,6 @@ export const moveUp = (zLevels) => {
         return changeZLevel(zLevels, 1);
     }
 };
-
 const changeZLevel = (zLevels, n: number) => {
     hideCurrent(zLevels);
     zLevels.current += n;

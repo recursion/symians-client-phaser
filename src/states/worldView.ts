@@ -1,5 +1,5 @@
 import * as Assets from '../assets';
-import Location from '../world/location';
+import Location, { TILE_SIZE } from '../world/location';
 import * as Input from '../app/input';
 import * as zLevels from '../world/zLevels';
 import * as World from '../world/world';
@@ -23,6 +23,9 @@ export default class WorldView extends Phaser.State {
 
         // setup camera movement / zLevel nagivation hotkeys
         this.hotkeys = Input.setup(this.game, this.zLevels);
+
+        // set the world size
+        this.world.resize(this.worldData.dimensions.width * TILE_SIZE, this.worldData.dimensions.height * TILE_SIZE);
     }
 
 

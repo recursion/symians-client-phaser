@@ -4,6 +4,8 @@ import * as Socket from '../socket';
 import * as World from '../world/world';
 
 const logger = (msg) => console.log(msg);
+const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
+const preloadBarAssets = Assets.Atlases.AtlasesPreloadSpritesArray;
 
 export default class Preloader extends Phaser.State {
     private preloadBarSprite: Phaser.Sprite = null;
@@ -19,16 +21,16 @@ export default class Preloader extends Phaser.State {
         this.preloadBar();
 
         this.game.load.atlasXML(
-            Assets.Atlases.AtlasesSpritesheetTiles.getName(),
-            Assets.Atlases.AtlasesSpritesheetTiles.getPNG(),
-            Assets.Atlases.AtlasesSpritesheetTiles.getXML()
+            tileAssets.getName(),
+            tileAssets.getPNG(),
+            tileAssets.getXML()
         );
 
         this.createText();
 
-        this.game
-            .load
-            .setPreloadSprite(this.preloadBarSprite);
+        this.game.load.setPreloadSprite(
+            this.preloadBarSprite
+        );
 
         AssetUtils.Loader.loadAllAssets(
             this.game,
@@ -41,8 +43,8 @@ export default class Preloader extends Phaser.State {
         this.preloadBarSprite = this.game.add.sprite(
             this.game.world.centerX,
             this.game.world.centerY,
-            Assets.Atlases.AtlasesPreloadSpritesArray.getName(),
-            Assets.Atlases.AtlasesPreloadSpritesArray.Frames.PreloadBar
+            preloadBarAssets.getName(),
+            preloadBarAssets.Frames.PreloadBar
         );
 
         this.preloadBarSprite.anchor.setTo(0, 0.5);
@@ -51,24 +53,18 @@ export default class Preloader extends Phaser.State {
         this.preloadFrameSprite = this.game.add.sprite(
             this.game.world.centerX,
             this.game.world.centerY,
-            Assets
-                .Atlases
-                .AtlasesPreloadSpritesArray
-                .getName(),
-            Assets
-                .Atlases
-                .AtlasesPreloadSpritesArray
-                .Frames
-                .PreloadFrame
+            preloadBarAssets.getName(),
+            preloadBarAssets.Frames.PreloadFrame
         );
 
         this.preloadFrameSprite.anchor.setTo(0.5);
     }
 
     private waitForSoundDecoding(): void {
-        AssetUtils
-            .Loader
-            .waitForSoundDecoding(this.waitForWorldData, this);
+        AssetUtils.Loader.waitForSoundDecoding(
+            this.waitForWorldData,
+            this
+        );
     }
 
     private startGame(): void {
@@ -76,6 +72,7 @@ export default class Preloader extends Phaser.State {
             .camera
             .onFadeComplete
             .addOnce(this.loadTitle, this);
+
         this.game.camera.fade(0x000000, 500);
     }
 

@@ -1,23 +1,12 @@
 import Location from './location';
 import * as zLevels from './zLevels';
-
-export const Coordinates = ([x, y, z]) => {
-    return { x: Number(x), y: Number(y), z: Number(z) };
-};
-
-export const hashCoords = (coords) => {
-    return [coords.x, coords.y, coords.z].join('|');
-};
-
-export const decodeCoords = (coords) => {
-    return Coordinates(coords.split('|'));
-};
+import { unHash } from './coordinates';
 
 export const createLocations = (game, locations, layers, selector) => {
     const tiles = {};
     for (let coords in locations) {
         if (locations.hasOwnProperty(coords)) {
-            let coordinates = decodeCoords(coords);
+            let coordinates = unHash(coords);
 
             const tile = new Location(game,
                 coordinates,
