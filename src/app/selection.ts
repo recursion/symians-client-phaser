@@ -1,5 +1,4 @@
 import { Coordinates } from '../world/coordinates';
-// import { not, contains } from 'ramda';
 
 export const Selection = () => (
     {
@@ -9,20 +8,21 @@ export const Selection = () => (
     }
 );
 export const start = (coords, selection) => {
-    selection.start = coords
+    selection.start = coords;
     selection.enabled = true;
     return selection;
 };
 export const stop = (coords, selection) => {
-    selection.end = coords
+    selection.end = coords;
     selection.enabled = false;
     return selection;
 };
 export const update = (coords, selection) => {
-    selection.end = coords
+    selection.end = coords;
     return selection;
 };
 
+// TODO: include all z levels between start and end (currently only selects the end zLevel tiles)
 export const selected = (selection) => {
     if (selection.enabled) {
         const z = selection.end && selection.end.z || 0;
@@ -47,4 +47,4 @@ export const selected = (selection) => {
     } else {
         return [];
     }
-}
+};

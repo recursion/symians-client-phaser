@@ -1,5 +1,5 @@
 import * as Coordinates from '../world/coordinates';
-import { TILE_SIZE } from '../world/location'
+import { TILE_SIZE } from '../world/location';
 import { not, contains } from 'ramda';
 import * as Selection from './selection';
 
@@ -32,7 +32,7 @@ export default class Selector {
         this.buffer.map((coords) => {
             let tile = tiles[Coordinates.hash(coords)];
             tile.tint = 0xFFFFFF;
-        })
+        });
     }
     private tintBuffer(tiles) {
         // tint currently selected + buffer
