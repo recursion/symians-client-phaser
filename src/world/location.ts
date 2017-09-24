@@ -40,37 +40,37 @@ export const create = (game, coordinates, location, selector) => {
 
     tile.z = coordinates.z;
 
-    tile = setEventHandlers(tile, selector);
+    tile = setEventHandlers(coordinates, tile, selector);
 
     return tile;
 };
 
-const setEventHandlers = (tile, selector) => {
+const setEventHandlers = (coordinates, tile, selector) => {
     tile.inputEnabled = true;
 
     tile.events
         .onInputOver
         .add(() => {
-            selector.onOver(tile.coordinates);
+            selector.onOver(coordinates);
         });
 
     tile.events
         .onInputDown
         .add(() => {
-            console.log(tile.coordinates);
-            selector.onDown(tile.coordinates);
+            console.log(coordinates);
+            selector.onDown(coordinates);
         });
 
     tile.events
         .onInputUp
         .add(() => {
-            selector.onUp(tile.coordinates);
+            selector.onUp(coordinates);
         });
 
     tile.events
         .onInputOut
         .add(() => {
-            selector.onOut(tile.coordinates);
+            selector.onOut(coordinates);
         });
     return tile;
 };
