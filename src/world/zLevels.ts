@@ -5,16 +5,18 @@ const zLevels = {
     ceiling: Z_LEVEL_CEILING,
     floor: Z_LEVEL_FLOOR,
     current: 0,
-    all: []
+    all: [],
+    game: null,
+    group: null
 };
 
 export const init = (game, height) => {
     let levels = [...Array(height).keys()];
     for (let level in levels) {
-        let g = game.add.group();
-        g.visible = false;
-        zLevels.all.push(g);
+        zLevels.all.push({});
     }
+    zLevels.game = game;
+    zLevels.group = game.add.group();
     return zLevels;
 };
 export const showCurrent = (zLevels) => {
@@ -37,8 +39,13 @@ export const moveUp = (zLevels) => {
     }
 };
 const changeZLevel = (zLevels, n: number) => {
-    hideCurrent(zLevels);
+    zLevels.group.removeAll();
     zLevels.current += n;
-    showCurrent(zLevels);
+
+    for (let tile in zLevels.all[zLevels.current]) {
+        zLevels.group.add(zLevels.all[zLevels.current][tile]);
+    }
+
+    // zLevels.game.add.existing(zLevels.all[zLevels.current]);
     return zLevels;
 };

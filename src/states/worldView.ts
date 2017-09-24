@@ -1,4 +1,5 @@
 import * as Assets from '../assets';
+import * as Coordinates from '../world/coordinates';
 import Location, { TILE_SIZE } from '../world/location';
 import * as Input from '../app/input';
 import * as zLevels from '../world/zLevels';
@@ -28,6 +29,22 @@ export default class WorldView extends Phaser.State {
         this.world.resize(this.worldData.dimensions.width * TILE_SIZE, this.worldData.dimensions.height * TILE_SIZE);
     }
 
+    public updateTiles(previousZLevel) {
+        const target = this.zLevels.all[this.zLevels.current];
+        for (let location in target) {
+            const currentCoords = Coordinates.unHash(location);
+
+            const oldCoords = Coordinates.unHash(location);
+            oldCoords.z = previousZLevel
+
+            const oldZlevelCoords = Coordinates.hash(oldCoords);
+            const tile = this.tiles[oldZlevelCoords]
+
+            tile.coordinates = currentCoords;
+            tile.tint = 0xFFFFFF;
+            tile.z = currentCoords.z;
+        }
+    }
 
     public create(): void {
         this.selector = new Selector();

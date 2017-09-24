@@ -3,7 +3,7 @@ import * as Assets from '../assets';
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 
 // what scale we want to display the images at
-const TILE_SCALE = 0.25;
+export const TILE_SCALE = 0.25;
 
 // real pixel size of the images
 const IMG_SIZE = 128;
