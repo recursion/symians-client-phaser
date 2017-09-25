@@ -1,5 +1,6 @@
 import * as Assets from '../assets';
 
+// alias to our tile spritesheet assets
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 
 // what scale we want to display the images at
@@ -12,6 +13,7 @@ const IMG_SIZE = 128;
 // calculate tile size based on actual image size and current scale.
 export const TILE_SIZE = IMG_SIZE * TILE_SCALE;
 
+// select texture based on location type_
 const determineTexture = (location) => {
     switch (location.type_) {
         case 'grass':
@@ -24,7 +26,6 @@ const determineTexture = (location) => {
 };
 
 export const create = (game, coordinates, location, selector) => {
-    // select texture based on location type_
     const texture = determineTexture(location);
 
     let tile = game.make.sprite(
@@ -34,14 +35,13 @@ export const create = (game, coordinates, location, selector) => {
         texture
     );
 
-
     tile.scale.set(TILE_SCALE, TILE_SCALE);
 
-    tile.z = coordinates.z;
+    // this is not needed with the way we are currently displaying zLevels.
+    // may be used in the future.
+    // tile.z = coordinates.z;
 
-    tile = setEventHandlers(coordinates, tile, selector);
-
-    return tile;
+    return setEventHandlers(coordinates, tile, selector);
 };
 
 const setEventHandlers = (coordinates, tile, selector) => {
