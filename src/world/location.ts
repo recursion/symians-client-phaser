@@ -59,10 +59,10 @@ export const create = (game, coordinates, location, selector) => {
     // tile.z = coordinates.z;
     tile = addEntities(game, coordinates, tile, location);
 
-    return setEventHandlers(coordinates, tile, selector);
+    return setEventHandlers(coordinates, tile, location.entities, selector);
 };
 
-const setEventHandlers = (coordinates, tile, selector) => {
+const setEventHandlers = (coordinates, tile, entities, selector) => {
     tile.inputEnabled = true;
 
     tile.events
@@ -75,6 +75,7 @@ const setEventHandlers = (coordinates, tile, selector) => {
         .onInputDown
         .add(() => {
             console.log(coordinates);
+            console.log(entities);
             selector.onDown(coordinates);
         });
 
