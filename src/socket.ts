@@ -1,7 +1,5 @@
 import { Socket, SocketOptions, Channel } from 'phoenix';
 
-const logger = (msg) => console.log(msg);
-
 const socketAddress = 'ws:/192.168.88.29:4000/socket';
 
 // function that takes a string.
@@ -31,7 +29,7 @@ export const createChannel = (socket: Socket, name: string, eventHandlers: [Even
     });
     channel.join()
         .receive('ok', ({ messages }) => {
-            const info = `socket connected: ${channel} `;
+            const info = `channel connected: ${name} `;
             if (messages) {
                 console.log(info, messages);
             } else {

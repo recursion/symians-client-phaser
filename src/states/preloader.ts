@@ -3,9 +3,13 @@ import * as AssetUtils from '../utils/assetUtils';
 import * as Socket from '../socket';
 import * as World from '../world/world';
 
+const waitDelay = 50;
 const logger = (msg) => console.log(msg);
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 const preloadBarAssets = Assets.Atlases.AtlasesPreloadSpritesArray;
+
+// TODO: process the inital world data here instead of in the worldView state.
+
 
 export default class Preloader extends Phaser.State {
     private preloadBarSprite: Phaser.Sprite = null;
@@ -109,7 +113,7 @@ export default class Preloader extends Phaser.State {
     // fire off a timer to check if we have world data yet
     private waitForWorldData() {
         this.game.time.events.add(
-            50,
+            waitDelay,
             this.checkForWorldData,
             this
         );

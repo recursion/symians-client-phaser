@@ -6,6 +6,9 @@ const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 
 export const init = (game, locations, layers, selector) => {
     const tiles = {};
+    // iterate over the locations creating tiles for each location
+    // sort locations into by zLevel.
+    // TODO: send data from the server by zLevel?
     for (let coords in locations) {
         if (locations.hasOwnProperty(coords)) {
             let coordinates = unHash(coords);
@@ -19,6 +22,5 @@ export const init = (game, locations, layers, selector) => {
     for (let tile in layers.all[0]) {
         layers.displayed.add(layers.all[0][tile]);
     }
-    // game.add.existing(layers.all[0]);
     return tiles;
 };

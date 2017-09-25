@@ -3,12 +3,13 @@ import * as Assets from '../assets';
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
 
 // what scale we want to display the images at
+// eventually we will change this based on device resolution.
 export const TILE_SCALE = 0.25;
 
 // real pixel size of the images
 const IMG_SIZE = 128;
 
-// display the tile images at our scale
+// calculate tile size based on actual image size and current scale.
 export const TILE_SIZE = IMG_SIZE * TILE_SCALE;
 
 const determineTexture = (location) => {
@@ -23,9 +24,7 @@ const determineTexture = (location) => {
 };
 
 export const create = (game, coordinates, location, selector) => {
-    /*
-        select texture based on location type_
-    */
+    // select texture based on location type_
     const texture = determineTexture(location);
 
     let tile = game.make.sprite(
