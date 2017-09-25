@@ -21,9 +21,26 @@ const determineTexture = (location) => {
         case 'dirt':
             return tileAssets.Frames.Dirt;
         default:
-            return tileAssets.Frames.Rock;
+            return tileAssets.Frames.Water;
     }
 };
+
+// randomly pick one of our grass tiles
+export const getGrass = () => {
+    const min = Math.ceil(0);
+    const max = Math.floor(3);
+    const index = Math.floor(Math.random() * (max - min + 1)) + min;
+    return [tileAssets.Frames.Grass1, tileAssets.Frames.Grass2, tileAssets.Frames.Grass3, tileAssets.Frames.Grass4][index];
+}
+
+// simple function for adding entites to the tile
+export const addEntities = (game, coordinates, tile, location) => {
+    if (location.entities.length > 0) {
+        let entity = game.make.sprite(0, 0, tileAssets.getName(), getGrass());
+        tile.addChild(entity);
+    }
+    return tile;
+}
 
 export const create = (game, coordinates, location, selector) => {
     const texture = determineTexture(location);
@@ -40,6 +57,7 @@ export const create = (game, coordinates, location, selector) => {
     // this is not needed with the way we are currently displaying zLevels.
     // may be used in the future.
     // tile.z = coordinates.z;
+    tile = addEntities(game, coordinates, tile, location);
 
     return setEventHandlers(coordinates, tile, selector);
 };
