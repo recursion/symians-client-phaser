@@ -1,4 +1,7 @@
 import * as Assets from '../assets';
+// NOTE: this file is smelling more like `tile` than `location`
+// as it seems to deal more with creating/modfiying `tile`s
+// should investigate possibly changing it's name
 
 // alias to our tile spritesheet assets
 const tileAssets = Assets.Atlases.AtlasesSpritesheetTiles;
@@ -25,15 +28,20 @@ const determineTexture = (location) => {
     }
 };
 
-// randomly pick one of our grass tiles
+/* return a random grass image
+*/
 export const getGrass = () => {
     const min = Math.ceil(0);
     const max = Math.floor(3);
     const index = Math.floor(Math.random() * (max - min + 1)) + min;
-    return [tileAssets.Frames.Grass1, tileAssets.Frames.Grass2, tileAssets.Frames.Grass3, tileAssets.Frames.Grass4][index];
+    return [tileAssets.Frames.Grass1,
+    tileAssets.Frames.Grass2,
+    tileAssets.Frames.Grass3,
+    tileAssets.Frames.Grass4][index];
 }
 
 // simple function for adding entites to the tile
+// adds an `entitie` to a `game` `tile` at `location`
 export const addEntities = (game, coordinates, tile, location) => {
     if (location.entities.length > 0) {
         let entity = game.make.sprite(0, 0, tileAssets.getName(), getGrass());
@@ -42,6 +50,9 @@ export const addEntities = (game, coordinates, tile, location) => {
     return tile;
 }
 
+/* return a game tile
+   takes a game instance, a set of coordinates, a location and a selector
+*/
 export const create = (game, coordinates, location, selector) => {
     const texture = determineTexture(location);
 
@@ -62,6 +73,7 @@ export const create = (game, coordinates, location, selector) => {
     return setEventHandlers(coordinates, tile, location.entities, selector);
 };
 
+// add event handlers to a tile and return it
 const setEventHandlers = (coordinates, tile, entities, selector) => {
     tile.inputEnabled = true;
 
